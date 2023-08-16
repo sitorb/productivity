@@ -1,0 +1,15 @@
+{% load blog_tags %}
+
+<div class="col-3">
+    {% get_all_categories as categories %}
+    <h2>Categories</h2>
+    <div class="list-group">
+        <a href="{% url 'home' %}" class="list-group-item list-group-item-action">Show all</a>
+        {% for category in categories %}
+        <a href="{{ category.get_absolute_url }}" class="list-group-item list-group-item-action">
+            {{ category }}
+        </a>
+        {% endfor %}
+        <h2>{{ title }}</h2>
+    </div>
+</div>

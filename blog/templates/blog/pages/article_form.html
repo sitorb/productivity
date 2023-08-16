@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+{% if 'update' in request.path %}
+Change an article
+{% else %}
+Create an article
+{% endif %}
+
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">
+            {% if 'update' in request.path %}
+            Change an article
+            {% else %}
+            Create an article
+            {% endif %}
+
+        </button>
+    </form>
+</div>
+{% endblock content %}

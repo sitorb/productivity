@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% load blog_tags %}
+
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        {% include 'components/_sidebar.html' %}
+        <div class="col-9">
+            <div class="card">
+                {% if article.photo %}
+                <img src="{{ article.photo.url }}" class="card-img-top" alt="{{ article.title }}" height="600">
+                {% else %}
+                <h2>No</h2>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ article.title }}</h5>
+                    <p class="card-text">{{ article.description }}</p>
+                </div>
+                <div class="card-footer d-flex justify-content-between gap-3">
+                    <div>Views: {{ article.viewed }}</div>
+                    <div>
+                        {% if article.author %}
+                        {{ article.author }}
+                        {% else %}
+                        Anonym
+                        {% endif %}
+                    </div>
+
+                </div>
+                {% if request.user.is_authenticated and request.user == article.author or request.user.is_superuser %}
+                <div class="card-footer d-flex justify-content-end gap-3">
+                    <a href="{% url 'article_update' article.id %}" class="btn btn-warning">Edit</a>
+                    <a href="{% url 'article_delete' article.id %}" class="btn btn-danger">Delete</a>
+                </div>
+                {% endif %}
+            </div>
+            {% if request.user.is_authenticated %}
+            <form action="{% url 'add_comment' article.id %}" method="post">
+                {% csrf_token %}
+                {{ comment_form.text }}
+                <button class="btn btn-dark mt-1" type="submit">Comment</button>
+            </form>
+            {% endif %}
+
+            {% for comment in comments %}
+
+            <div class="card mt-2">
+                <h5 class="card-header">{{ comment.user.username }}</h5>
+                <div class="card-body">
+                    <p class="card-text">{{ comment.text }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

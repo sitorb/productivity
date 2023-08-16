@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Delet: {{ article.title }}
+{% endblock title %}
+
+{% block content %}
+<form action="" method="post">
+    {% csrf_token %}
+    <p>Are you sure to delete the article named: {{ article.title }}</p>
+    <input type="submit" class="btn btn-danger" value="Yes, you gotta delete it now">
+    <a href="{{ article.get_absolute_url }}" class="btn btn-secondary">Back</a></form>
+{% endblock content %}
